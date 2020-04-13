@@ -3,17 +3,25 @@
   "type": "object",
   "additionalProperties": true,
   "required": [
-    "city",
-    "location",
+    "city_id",
+    "location_id",
     "mobile_no",
     "otp"
   ],
   "properties": {
-    "city": {
-      "type": "string"
+    "city_id": {
+      "type": "number",
+      "exists": {
+        "table": "cities",
+        "column": "id"
+      }
     },
-    "location": {
-      "type": "string"
+    "location_id": {
+      "type": "number",
+      "exists": {
+        "table": "locations",
+        "column": "id"
+      }
     },
     "mobile_no": {
       "type": "string",

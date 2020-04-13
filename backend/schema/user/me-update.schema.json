@@ -18,17 +18,35 @@
     "alternate_no": {
       "type": "string"
     },
+    "address": {
+      "type": "string"
+    },
+    "landmark": {
+      "type": "string"
+    },
     "state": {
       "type": "string"
     },
-    "city": {
-      "type": "string"
+    "city_id": {
+      "type": "number",
+      "exists": {
+        "table": "cities",
+        "column": "id"
+      }
     },
     "area": {
-      "type": "string"
+      "type": "number",
+      "exists": {
+        "table": "areas",
+        "column": "id"
+      }
     },
     "location": {
-      "type": "string"
+      "type": "number",
+      "exists": {
+        "table": "locations",
+        "column": "id"
+      }
     },
     "pincode": {
       "type": "number"

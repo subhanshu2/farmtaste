@@ -49,11 +49,11 @@ export class User extends Model<User> {
 
   @ForeignKey(() => City)
   @Column(DataType.BIGINT)
-  city_id: number;
+  city_id?: number;
 
   @ForeignKey(() => Location)
   @Column(DataType.BIGINT)
-  location_id: number;
+  location_id?: number;
 
   @ForeignKey(() => Area)
   @Column(DataType.BIGINT)

@@ -40,7 +40,7 @@ export = {
         allowNull: true,
         type     : Sequelize.STRING
       },
-      city        : {
+      city_id     : {
         allowNull : false,
         type      : Sequelize.BIGINT,
         references: {
@@ -48,7 +48,7 @@ export = {
           key  : "id"
         }
       },
-      location    : {
+      location_id : {
         allowNull : false,
         type      : Sequelize.BIGINT,
         references: {
@@ -56,7 +56,7 @@ export = {
           key  : "id"
         }
       },
-      area        : {
+      area_id     : {
         allowNull : true,
         type      : Sequelize.BIGINT,
         references: {

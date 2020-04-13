@@ -56,15 +56,18 @@ export class UserController {
     await preUser.destroy();
 
     return res.json({
-      token: jwt.sign({user}, "secret"),
-      user: await (new UserTransformer()).transform(user),
+      token: jwt.sign({ user }, "secret"),
+      user : await (new UserTransformer()).transform(user),
     });
 
   }
 
 
   static async signup(req: Request, res: Response, next: NextFunction) {
+    req.body.city_id = +req.body.city_id;
+    req.body.location_id = +req.body.location_id;
     const inputData = req.body as UserCreateDto;
+
 
     const preUser = await PreUser.findOne({
       where: {
@@ -73,7 +76,7 @@ export class UserController {
     });
 
     if (!preUser) {
-      throw new UnauthorizedException("You are Not Authorized", 401);
+      throw new UnauthorizedException("You are already signed up", 401);
     }
 
     try {
@@ -88,20 +91,20 @@ export class UserController {
     const user = await userService.create(inputData);
     await preUser.destroy();
     return res.json({
-      token: jwt.sign({user}, "secret"),
-      user: await (new UserTransformer()).transform(user),
+      token: jwt.sign({ user }, "secret"),
+      user : await (new UserTransformer()).transform(user),
     });
   }
 
   static async generateOtp(req: Request, res: Response) {
-    const inputData = req.body as { mobile_no: string};
+    const inputData = req.body as { mobile_no: string };
     const preUser = await userService.preSignup(inputData);
     // todo: sendOtp
     const user = await userService.showUserByMobile(inputData.mobile_no);
     if (user) {
-      throw new UserAlreadyExistsException();
+      return res.json("OTP Generated, Kindly Login");
     }
-    return res.json("OTP Generated");
+    return res.json("OTP Generated, Kindly Register");
   }
 
   static async me(req: Request, res: Response) {
@@ -127,7 +130,7 @@ export class UserController {
     });
   }
 
-  static async deleteMe (req: Request, res: Response) {
+  static async deleteMe(req: Request, res: Response) {
     const user = req.user;
     await userService.delete(user);
   }
