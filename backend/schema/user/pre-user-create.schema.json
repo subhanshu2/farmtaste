@@ -1,0 +1,14 @@
+{
+  "$async": true,
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "email"
+  ],
+  "properties": {
+    "mobile_no": {
+      "type": "string",
+      "phone_number": true
+    }
+  }
+}

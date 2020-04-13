@@ -1,0 +1,37 @@
+{
+  "$async": true,
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "type",
+    "title"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "state",
+        "city",
+        "location",
+        "area"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "city_id": {
+      "type": "number",
+      "exists": {
+        "table": "cities",
+        "column": "id"
+      }
+    },
+    "location_id": {
+      "type": "number",
+      "exists": {
+        "table": "locations",
+        "column": "id"
+      }
+    }
+  }
+}

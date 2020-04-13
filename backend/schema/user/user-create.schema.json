@@ -1,0 +1,26 @@
+{
+  "$async": true,
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "city",
+    "location",
+    "mobile_no",
+    "otp"
+  ],
+  "properties": {
+    "city": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "mobile_no": {
+      "type": "string",
+      "phone_number": true
+    },
+    "otp": {
+      "type": "string"
+    }
+  }
+}

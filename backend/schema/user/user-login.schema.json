@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "mobile_no",
+    "otp"
+  ],
+  "properties": {
+    "mobile_no": {
+      "type": "string"
+    },
+    "otp": {
+      "type": "string"
+    }
+  }
+}

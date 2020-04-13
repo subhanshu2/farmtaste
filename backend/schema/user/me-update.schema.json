@@ -1,0 +1,40 @@
+{
+  "$async": true,
+  "type": "object",
+  "additionalProperties": true,
+  "required": [],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "pattern": "^(([^<>()\\[\\]\\.,;:\\s@\\\"]+(\\.[^<>()\\[\\]\\.,;:\\s@\\\"]+)*)|(\\\".+\\\"))@(([^<>()[\\]\\.,;:\\s@\\\"]+\\.)+[^<>()[\\]\\.,;:\\s@\\\"]{2,})$"
+    },
+    "mobile_no": {
+      "type": "string",
+      "phone_number": true
+    },
+    "alternate_no": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "area": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "pincode": {
+      "type": "number"
+    },
+    "status": {
+      "type": "boolean"
+    }
+  }
+}
