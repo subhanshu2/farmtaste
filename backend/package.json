@@ -1,8 +1,8 @@
 {
-  "name": "alpha-emc",
+  "name": "farm-taste",
   "version": "0.0.1",
   "description": "",
-  "private": true,
+  "private": false,
   "scripts": {
     "watch-ts": "tsc -w",
     "watch-node": "SET NODE_ENV=dev && nodemon dist/server.js",
