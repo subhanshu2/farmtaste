@@ -89,17 +89,17 @@ app.post("/signup", errorHandler(UserController.signup));
 app.post("/login", errorHandler(UserController.authenticate));
 
 
-// LEADER
+// USER
 app.get("/me", [userMiddleware], errorHandler(UserController.me));
 app.put("/me", [userMiddleware], errorHandler(UserController.updateMe));
 app.delete("/me", [userMiddleware], errorHandler(UserController.deleteMe));
 
 
 // ADDRESSES
-app.post("/address", upload.single("image"), errorHandler(AddressController.addAddresses));
+app.post("/address", errorHandler(AddressController.addAddresses));
 app.get("/cities", errorHandler(AddressController.listCities));
-app.get("/locations", errorHandler(AddressController.listLocations));
-app.get("/areas", errorHandler(AddressController.listAreas));
+app.get("/locations/:cityId([0-9]+)", errorHandler(AddressController.listLocations));
+app.get("/areas/:locationId([0-9]+)", errorHandler(AddressController.listAreas));
 
 // // MEMBERS
 // app.put("/members/:memberId([0-9]+)", [userMiddleware], errorHandler(UserController.updateMember));

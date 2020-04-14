@@ -41,6 +41,10 @@ class DBService {
   async rawQuery(sql: string | { query: string, values: any[] }, options?: QueryOptions): Promise<any> {
     return this._sequelize.query(sql, options);
   }
+
+  getSequelize(): Sequelize {
+    return this._sequelize;
+  }
 }
 
 export const dbService = DBService.getInstance();

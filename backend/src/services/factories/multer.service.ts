@@ -20,10 +20,6 @@ const storage = multer.diskStorage({
   },
   filename   : (req: Request, file, callback) => {
     let name   = file.originalname.split(".")[0] + "-" + Date.now() + path.extname(file.originalname);
-    const type = req.query.type || "";
-    if (type === "city") {
-      name = name + ".svg";
-    }
     name = Helpers.sanitizePath(name);
     callback(null, name);
   },

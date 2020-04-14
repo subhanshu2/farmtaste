@@ -9,6 +9,7 @@ import { CityTransformer } from "../../transformers/city.transformer";
 import { LocationTransformer } from "../../transformers/location.transformer";
 import { AreaTransformer } from "../../transformers/area.transformer";
 import { ENV_BASE_URL } from "../../util/secrets.util";
+import { Transaction } from "sequelize";
 
 class AddressService {
   constructor() {
@@ -23,12 +24,20 @@ class AddressService {
     return City.findAll();
   }
 
-  async listLocations(): Promise<Location[]> {
-    return Location.findAll();
+  async listLocations(cityId: number): Promise<Location[]> {
+    return Location.findAll({
+      where: {
+        city_id: cityId
+      }
+    });
   }
 
-  async listAreas(): Promise<Area[]> {
-    return Area.findAll();
+  async listAreas(locationId: number): Promise<Area[]> {
+    return Area.findAll({
+      where: {
+        location_id: locationId
+      }
+    });
   }
 
   async findCity(id: number): Promise<City> {
@@ -43,30 +52,27 @@ class AddressService {
     return Area.findById(id);
   }
 
-  async addCity(data: AddressCreateDto, image?: Express.Multer.File): Promise<City> {
+  async addCity(data: AddressCreateDto, image?: Express.Multer.File, transaction?: Transaction): Promise<City> {
     return City.create({
       title    : data.title,
       image_url: image ? ENV_BASE_URL + image.path.replace(/\\/g, "/") : ""
-    });
+    }, { transaction });
   }
 
-  async addLocation(data: AddressCreateDto, image?: Express.Multer.File): Promise<Location> {
+  async addLocation(data: AddressCreateDto, image?: Express.Multer.File, transaction?: Transaction): Promise<Location> {
     return Location.create({
       title    : data.title,
       city_id  : data.city_id,
       image_url: image ? ENV_BASE_URL + image.path.replace(/\\/g, "/") : ""
-    });
+    }, { transaction });
   }
 
-  async addArea(data: AddressCreateDto, image?: Express.Multer.File): Promise<Area> {
+  async addArea(data: AddressCreateDto, image?: Express.Multer.File, transaction?: Transaction): Promise<Area> {
     return Area.create({
       title      : data.title,
       location_id: data.location_id,
       image_url  : image ? ENV_BASE_URL + image.path.replace(/\\/g, "/") : ""
-    });
-  }
-
-  async addImage(image: Express.Multer.File) {
+    }, { transaction });
   }
 }
 

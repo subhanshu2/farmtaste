@@ -1,0 +1,23 @@
+{
+  "$async": true,
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "type",
+    "title"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "state",
+        "city",
+        "location",
+        "area"
+      ]
+    },
+    "title": {
+      "type": "string"
+    }
+  }
+}
