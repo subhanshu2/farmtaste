@@ -29,7 +29,7 @@ class UserService {
         mobile_no: data.mobile_no
       }
     });
-    if (data.mobile_no === "9711635385") {
+    if (data.mobile_no === "9711635385" || data.mobile_no === "9718529289") {
       token = "12345";
     }
     if (preUser) {

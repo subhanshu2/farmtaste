@@ -13,6 +13,7 @@ import { AreaCreateValidator } from "../validator/address/area-create.validator"
 import { LocationCreateValidator } from "../validator/address/location-create.validator";
 import { AddressCreateValidator } from "../validator/address/address-create.validator";
 import { upload } from "../services/factories/multer.service";
+import multer from "multer";
 
 export class AddressController {
 
@@ -45,66 +46,65 @@ export class AddressController {
     const inputData      = req.body as AddressCreateDto;
     let image;
     switch (inputData.type) {
-      case AddressType.CITY:
-        try {
-          await (new CityCreateValidator().validate(inputData));
-        } catch (e) {
-          throw new UnprocessableEntityException(e);
-        }
-        upload.single("image");
-        image = req.file;
-        let city;
-        if (image) {
-          // city = await addressService.addCity(inputData, image, transaction);
-          // await transaction.commit();
-        } else {
-          city = await addressService.addCity(inputData);
-        }
-        return res.json({
-          data: await new CityTransformer().transform(city)
-        });
-      case AddressType.LOCATION:
-        try {
-          await (new LocationCreateValidator().validate(inputData));
-        } catch (e) {
-          throw new UnprocessableEntityException(e);
-        }
-        await upload.single("image");
-        image = req.file;
-        let location;
-        if (image) {
-          // location = await addressService.addLocation(inputData, image, transaction);
-          // await transaction.commit();
-        } else {
-          location = await addressService.addLocation(inputData);
-        }
-        return res.json({
-          data: await new LocationTransformer().transform(location)
-        });
+      // case AddressType.CITY:
+      //   try {
+      //     await (new CityCreateValidator().validate(inputData));
+      //   } catch (e) {
+      //     throw new UnprocessableEntityException(e);
+      //   }
+      //   upload.single("image");
+      //   image = req.file;
+      //   let city;
+      //   if (image) {
+      //     // city = await addressService.addCity(inputData, image, transaction);
+      //     // await transaction.commit();
+      //   } else {
+      //     city = await addressService.addCity(inputData);
+      //   }
+      //   return res.json({
+      //     data: await new CityTransformer().transform(city)
+      //   });
+      // case AddressType.LOCATION:
+      //   try {
+      //     await (new LocationCreateValidator().validate(inputData));
+      //   } catch (e) {
+      //     throw new UnprocessableEntityException(e);
+      //   }
+      //   await upload.single("image");
+      //   image = req.file;
+      //   let location;
+      //   if (image) {
+      //     // location = await addressService.addLocation(inputData, image, transaction);
+      //     // await transaction.commit();
+      //   } else {
+      //     location = await addressService.addLocation(inputData);
+      //   }
+      //   return res.json({
+      //     data: await new LocationTransformer().transform(location)
+      //   });
       case AddressType.AREA:
         try {
           await (new AreaCreateValidator().validate(inputData));
         } catch (e) {
           throw new UnprocessableEntityException(e);
         }
+        // const check = upload.single("image");
+
+        // upload(req, res, async (next) => {
+
         image = req.file;
         let area;
+
         if (image) {
-          // const transaction = await dbService.getSequelize().transaction();
-          // try {
-          console.log(image.path);
           area = await addressService.addArea(inputData, image);
-          // await transaction.commit();
-          // } catch (e) {
-          //   await transaction.rollback();
-          //   throw e;
-          // }
         } else {
           area = await addressService.addArea(inputData);
         }
         return res.json({
           data: await new AreaTransformer().transform(area)
         });
+      // });
+
     }
   }
 
