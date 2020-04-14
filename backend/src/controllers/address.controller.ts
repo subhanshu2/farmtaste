@@ -14,6 +14,10 @@ import { LocationCreateValidator } from "../validator/address/location-create.va
 import { AddressCreateValidator } from "../validator/address/address-create.validator";
 import { upload } from "../services/factories/multer.service";
 import multer from "multer";
+import * as fs from "fs";
+import { Area } from "../models/address/area.model";
+import { Location } from "../models/address/location.model";
+import { AddressNotFoundException } from "../exceptions/address/address-not-found.exception";
 
 export class AddressController {
 
@@ -46,86 +50,94 @@ export class AddressController {
     const inputData      = req.body as AddressCreateDto;
     let image;
     switch (inputData.type) {
-      // case AddressType.CITY:
-      //   try {
-      //     await (new CityCreateValidator().validate(inputData));
-      //   } catch (e) {
-      //     throw new UnprocessableEntityException(e);
-      //   }
-      //   upload.single("image");
-      //   image = req.file;
-      //   let city;
-      //   if (image) {
-      //     // city = await addressService.addCity(inputData, image, transaction);
-      //     // await transaction.commit();
-      //   } else {
-      //     city = await addressService.addCity(inputData);
-      //   }
-      //   return res.json({
-      //     data: await new CityTransformer().transform(city)
-      //   });
-      // case AddressType.LOCATION:
-      //   try {
-      //     await (new LocationCreateValidator().validate(inputData));
-      //   } catch (e) {
-      //     throw new UnprocessableEntityException(e);
-      //   }
-      //   await upload.single("image");
-      //   image = req.file;
-      //   let location;
-      //   if (image) {
-      //     // location = await addressService.addLocation(inputData, image, transaction);
-      //     // await transaction.commit();
-      //   } else {
-      //     location = await addressService.addLocation(inputData);
-      //   }
-      //   return res.json({
-      //     data: await new LocationTransformer().transform(location)
-      //   });
+      case AddressType.CITY:
+        try {
+          await (new CityCreateValidator().validate(inputData));
+        } catch (e) {
+          throw new UnprocessableEntityException(e);
+        }
+        image = req.file;
+        let city;
+        if (image) {
+          try {
+            city = await addressService.addCity(inputData, image);
+          } catch (e) {
+            fs.unlinkSync(image.path.replace(/\\/g, "/"));
+            throw e;
+          }
+        } else {
+          city = await addressService.addCity(inputData);
+        }
+        return res.json({
+          data: await new CityTransformer().transform(city)
+        });
+
+
+      case AddressType.LOCATION:
+        try {
+          await (new LocationCreateValidator().validate(inputData));
+        } catch (e) {
+          throw new UnprocessableEntityException(e);
+        }
+        image = req.file;
+        let location: Location;
+        if (image) {
+          try {
+            location = await addressService.addLocation(inputData, image);
+          } catch (e) {
+            fs.unlinkSync(image.path.replace(/\\/g, "/"));
+            throw e;
+          }
+        } else {
+          location = await addressService.addLocation(inputData);
+        }
+        return res.json({
+          data: await new LocationTransformer().transform(location)
+        });
+
+
       case AddressType.AREA:
         try {
           await (new AreaCreateValidator().validate(inputData));
         } catch (e) {
           throw new UnprocessableEntityException(e);
         }
-        // const check = upload.single("image");
-
-        // upload(req, res, async (next) => {
-
         image = req.file;
-        let area;
-
+        let area: Area;
         if (image) {
-          area = await addressService.addArea(inputData, image);
+          try {
+            area = await addressService.addArea(inputData, image);
+          } catch (e) {
+            fs.unlinkSync(image.path.replace(/\\/g, "/"));
+            throw e;
+          }
         } else {
           area = await addressService.addArea(inputData);
         }
         return res.json({
           data: await new AreaTransformer().transform(area)
         });
-      // });
+    }
+  }
 
+  static async updateImage(req: Request, res: Response) {
+    const inputData = req.body as { type: AddressType };
+    const addressId = +req.params.addressId;
+
+    const address = await addressService.findAddress(inputData.type, addressId);
+    if (!address) {
+      throw new AddressNotFoundException();
     }
   }
 
   static async deleteAddress(req: Request, res: Response) {
     const inputData = req.body as { type: AddressType };
     const addressId = +req.query.addressId;
-    let address;
-    switch (inputData.type) {
-      case AddressType.CITY:
-        address = await addressService.findCity(addressId);
-        await address.destroy();
-        break;
-      case AddressType.LOCATION:
-        address = await addressService.findLocation(addressId);
-        await address.destroy();
-        break;
-      case AddressType.AREA:
-        address = await addressService.findArea(addressId);
-        await address.destroy();
-        break;
+    const address = await addressService.findAddress(inputData.type, addressId);
+    if (!address) {
+      throw new AddressNotFoundException();
     }
+    await addressService.deleteAddress(address);
     return res.json("Success");
   }
 

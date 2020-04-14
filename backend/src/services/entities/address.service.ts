@@ -2,14 +2,11 @@ import logger from "../../util/logger.util";
 import { City } from "../../models/address/city.model";
 import { Location } from "../../models/address/location.model";
 import { Area } from "../../models/address/area.model";
-import { AddressType } from "../../enums/address-type.enum";
-import { type } from "os";
 import { AddressCreateDto } from "../../dtos/address/address-create.dto";
-import { CityTransformer } from "../../transformers/city.transformer";
-import { LocationTransformer } from "../../transformers/location.transformer";
-import { AreaTransformer } from "../../transformers/area.transformer";
 import { ENV_BASE_URL } from "../../util/secrets.util";
 import { Transaction } from "sequelize";
+import { AddressType } from "../../enums/address-type.enum";
+import { AddressNotFoundException } from "../../exceptions/address/address-not-found.exception";
 
 class AddressService {
   constructor() {
@@ -55,7 +52,7 @@ class AddressService {
   async addCity(data: AddressCreateDto, image?: Express.Multer.File, transaction?: Transaction): Promise<City> {
     return City.create({
       title    : data.title,
-      image_url: image ? ENV_BASE_URL + image.path.replace(/\\/g, "/") : ""
+      image_url: image ? image.path.replace(/\\/g, "/") : ""
     }, { transaction });
   }
 
@@ -63,16 +60,36 @@ class AddressService {
     return Location.create({
       title    : data.title,
       city_id  : data.city_id,
-      image_url: image ? ENV_BASE_URL + image.path.replace(/\\/g, "/") : ""
+      image_url: image ? image.path.replace(/\\/g, "/") : ""
     }, { transaction });
   }
 
-  async addArea(data: AddressCreateDto, image?: Express.Multer.File, transaction?: Transaction): Promise<Area> {
+  async addArea(data: AddressCreateDto, image?: Express.Multer.File, transaction?: Transaction): Promise<any> {
+
     return Area.create({
       title      : data.title,
       location_id: data.location_id,
-      image_url  : image ? ENV_BASE_URL + image.path.replace(/\\/g, "/") : ""
+      image_url  : image ? image.path.replace(/\\/g, "/") : ""
     }, { transaction });
+  }
+
+  async findAddress(type: AddressType, address_id: number) {
+    let address;
+    switch (type) {
+      case AddressType.CITY:
+        address = await addressService.findCity(address_id);
+        break;
+      case AddressType.LOCATION:
+        address = await addressService.findLocation(address_id);
+        break;
+      case AddressType.AREA:
+        address = await addressService.findArea(address_id);
+        break;
+    }
+    return address;
+  }
+  async deleteAddress(address: City | Location | Area) {
+    return address.destroy();
   }
 }
 

@@ -59,6 +59,10 @@ export enum ApiErrorCode {
   USER_DEACTIVATED           = 103,
   INCORRECT_OTP              = 104,
 
+
+  // Address
+  ADDRESS_NOT_FOUND          = 201,
+
   // JWT
 
   JWT_INVALID                = 9101,
