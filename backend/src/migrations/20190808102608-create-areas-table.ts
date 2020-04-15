@@ -28,7 +28,8 @@ export = {
         references: {
           model: "locations",
           key  : "id"
-        }
+        },
+        onDelete: "cascade"
       },
       is_active  : {
         allowNull : false,

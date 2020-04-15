@@ -40,29 +40,32 @@ export = {
         allowNull: true,
         type     : Sequelize.STRING
       },
-      city_id     : {
-        allowNull : false,
-        type      : Sequelize.BIGINT,
-        references: {
-          model: "cities",
-          key  : "id"
-        }
-      },
-      location_id : {
-        allowNull : false,
-        type      : Sequelize.BIGINT,
-        references: {
-          model: "locations",
-          key  : "id"
-        }
-      },
       area_id     : {
         allowNull : true,
         type      : Sequelize.BIGINT,
         references: {
           model: "areas",
           key  : "id"
-        }
+        },
+        onDelete  : "set null"
+      },
+      location_id : {
+        allowNull : true,
+        type      : Sequelize.BIGINT,
+        references: {
+          model: "locations",
+          key  : "id"
+        },
+        onDelete  : "set null"
+      },
+      city_id     : {
+        allowNull : true,
+        type      : Sequelize.BIGINT,
+        references: {
+          model: "cities",
+          key  : "id"
+        },
+        onDelete  : "set null"
       },
       pincode     : {
         allowNull: true,

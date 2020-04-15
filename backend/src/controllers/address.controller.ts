@@ -18,6 +18,7 @@ import * as fs from "fs";
 import { Area } from "../models/address/area.model";
 import { Location } from "../models/address/location.model";
 import { AddressNotFoundException } from "../exceptions/address/address-not-found.exception";
+import { add } from "winston";
 
 export class AddressController {
 
@@ -132,11 +133,12 @@ export class AddressController {
 
   static async deleteAddress(req: Request, res: Response) {
     const inputData = req.body as { type: AddressType };
-    const addressId = +req.query.addressId;
+    const addressId = +req.params.addressId;
     const address = await addressService.findAddress(inputData.type, addressId);
     if (!address) {
       throw new AddressNotFoundException();
     }
+    // await address.destroy;
     await addressService.deleteAddress(address);
     return res.json("Success");
   }

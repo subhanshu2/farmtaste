@@ -14,18 +14,18 @@ export = {
         unique   : true,
         allowNull: false
       },
-      slug    : {
+      slug     : {
         type     : Sequelize.STRING,
         allowNull: false,
       },
       image_url: {
-        type: Sequelize.STRING,
+        type     : Sequelize.STRING,
         allowNull: true
       },
-      is_active  : {
-        allowNull : false,
-        type      : Sequelize.BOOLEAN
-      },
+      is_active: {
+        allowNull: false,
+        type     : Sequelize.BOOLEAN
+      } ,
       createdAt: {
         allowNull: true,
         type     : Sequelize.DATE

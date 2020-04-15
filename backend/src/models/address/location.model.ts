@@ -8,7 +8,7 @@ import { City } from "./city.model";
   tableName : "locations"
 })
 
-export class  Location extends Address {
+export class Location extends Address {
 
   @ForeignKey(() => City)
   @Column(Sequelize.BIGINT)

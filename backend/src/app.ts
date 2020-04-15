@@ -97,6 +97,7 @@ app.delete("/me", [userMiddleware], errorHandler(UserController.deleteMe));
 
 // ADDRESSES
 app.post("/address", upload.single("image"), errorHandler(AddressController.addAddresses));
+app.delete("/address/:addressId([0-9]+)", errorHandler(AddressController.deleteAddress));
 app.get("/cities", errorHandler(AddressController.listCities));
 app.get("/locations/:cityId([0-9]+)", errorHandler(AddressController.listLocations));
 app.get("/areas/:locationId([0-9]+)", errorHandler(AddressController.listAreas));

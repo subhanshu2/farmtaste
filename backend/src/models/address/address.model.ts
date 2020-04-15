@@ -1,4 +1,5 @@
 import {
+  AfterDelete,
   AutoIncrement, BeforeCreate, BelongsTo, BelongsToMany,
   Column,
   DataType, Default, ForeignKey, HasMany, HasOne,
@@ -8,11 +9,12 @@ import {
   Unique
 } from "sequelize-typescript";
 import { Helpers } from "../../util/helpers.util";
+import * as fs from "fs";
 
 @Table({
   timestamps: true,
-  paranoid: false,
-  tableName: "addresses"
+  paranoid  : false,
+  tableName : "addresses"
 })
 export class Address extends Model<Address> {
   @Unique
@@ -41,5 +43,10 @@ export class Address extends Model<Address> {
   static addSlug(instance: Address) {
     instance.slug = Helpers.slugify(instance.title);
   }
+
+  // @AfterDelete
+  // static deleteImage(instance: Address) {
+  //   fs.unlinkSync(instance.image_url);
+  // }
 
 }
