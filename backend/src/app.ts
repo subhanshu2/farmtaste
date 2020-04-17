@@ -19,6 +19,7 @@ import { User } from "./models/user.model";
 import { errorHandler } from "./handlers/error-handler";
 import { upload } from "./services/factories/multer.service";
 import { AddressController } from "./controllers/address.controller";
+import { ProductController } from "./controllers/product.controller";
 // import { userMiddleware } from "./middlewares/user.middleware";
 
 
@@ -75,7 +76,7 @@ app.use(cors({
 app.options("*");
 
 // Static Public Content
-app.use(express.static(path.join(__dirname, "public"), { maxAge: 31557600000 }));
+app.use("/public", express.static("public", { maxAge: 31557600000 }));
 
 // Global Middleware(s)
 
@@ -102,19 +103,26 @@ app.get("/cities", errorHandler(AddressController.listCities));
 app.get("/locations/:cityId([0-9]+)", errorHandler(AddressController.listLocations));
 app.get("/areas/:locationId([0-9]+)", errorHandler(AddressController.listAreas));
 
-// // MEMBERS
-// app.put("/members/:memberId([0-9]+)", [userMiddleware], errorHandler(UserController.updateMember));
-// app.delete("/members/:memberId([0-9]+)", [userMiddleware], errorHandler(UserController.deleteMember));
-//
-// // TEAM
-// app.post("/teams", [userMiddleware], errorHandler(TeamController.showTeam));
-// app.put("/teams", [userMiddleware], errorHandler(TeamController.updateMyTeam));
-// app.put("/teams/:teamId([0-9]+)", [userMiddleware], errorHandler(TeamController.updateTeam));
-// app.get("/teams", [userMiddleware], errorHandler(TeamController.listTeams));
-//
-// // ATTACHMENT
-// app.post("/attachments", [userMiddleware], errorHandler(AttachmentController.createAttachment));
-// app.delete("/attachments/:attachmentId([0-9]+)", [userMiddleware], errorHandler(AttachmentController.deleteAttachment));
+// CATEGORY
+app.get("/productCategories", errorHandler(ProductController.listProductCategories));
+app.post("/productCategories", errorHandler(ProductController.createProductCategory));
+app.put("/productCategory/:categoryId([0-9]+)", errorHandler(ProductController.updateProductCategory));
+app.delete("/productCategory/:categoryId([0-9]+)", errorHandler(ProductController.deleteProductCategory));
+
+
+// SUB CATEGORY
+app.get("/productSubCategories", errorHandler(ProductController.listProductSubCategories));
+app.post("/productSubCategories", upload.single("image"), errorHandler(ProductController.createProductSubCategory));
+app.put("/productSubCategory/:subCategoryId([0-9]+)", upload.single("image"), errorHandler(ProductController.updateProductSubCategory));
+app.delete("/productSubCategory/:subCategoryId([0-9]+)", errorHandler(ProductController.deleteProductSubCategory));
+
+
+// PRODUCT
+app.get("/products", errorHandler(ProductController.listProducts));
+app.post("/products", upload.single("image"), errorHandler(ProductController.createProduct));
+app.put("/product/:productId([0-9]+)", upload.single("image"), errorHandler(ProductController.updateProduct));
+app.delete("/product/:productId([0-9]+)", errorHandler(ProductController.deleteProduct));
+
 
 app.get("*", (req, res) => {
   res.send({ data: "Works" });

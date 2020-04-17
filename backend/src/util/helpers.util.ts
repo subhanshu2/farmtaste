@@ -12,7 +12,7 @@ export class Helpers {
     includeNumbers: boolean
   }) {
     let dictionary = "";
-    let random = "";
+    let random     = "";
 
     if (options.includeLowerCase) {
       dictionary += "abcdefghijklmnopqrstuvwxyz";
@@ -45,6 +45,12 @@ export class Helpers {
     return min + Math.floor(Math.random() * _window);
   }
 
+  public static replaceUndefinedWithNull(object: any) {
+    if (isUndefined(object)) {
+      return null;
+    }
+    return object;
+  }
 
   public static generateUUIDV4(): string {
     return uuidv4();

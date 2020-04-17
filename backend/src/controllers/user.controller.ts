@@ -21,7 +21,7 @@ export class UserController {
 
   static async show(req: Request, res: Response) {
     const userId = +req.params.userId;
-    const user = await userService.show(userId);
+    const user   = await userService.show(userId);
 
     if (!user) {
       throw new UserNotFoundException();
@@ -64,10 +64,9 @@ export class UserController {
 
 
   static async signup(req: Request, res: Response, next: NextFunction) {
-    req.body.city_id = +req.body.city_id;
+    req.body.city_id     = +req.body.city_id;
     req.body.location_id = +req.body.location_id;
-    const inputData = req.body as UserCreateDto;
-
+    const inputData      = req.body as UserCreateDto;
 
     const preUser = await PreUser.findOne({
       where: {
@@ -76,7 +75,7 @@ export class UserController {
     });
 
     if (!preUser) {
-      throw new UnauthorizedException("You are already signed up", 401);
+      throw new UnauthorizedException("Kindly Request for OTP first", 401);
     }
 
     try {
@@ -92,15 +91,15 @@ export class UserController {
     await preUser.destroy();
     return res.json({
       token: jwt.sign({ user }, "secret"),
-      user : await (new UserTransformer()).transform(user),
+      user : await new UserTransformer().transform(user),
     });
   }
 
   static async generateOtp(req: Request, res: Response) {
     const inputData = req.body as { mobile_no: string };
-    const preUser = await userService.preSignup(inputData);
+    const preUser   = await userService.preSignup(inputData);
     // todo: sendOtp
-    const user = await userService.showUserByMobile(inputData.mobile_no);
+    const user      = await userService.showUserByMobile(inputData.mobile_no);
     if (user) {
       return res.json("OTP Generated, Kindly Login");
     }

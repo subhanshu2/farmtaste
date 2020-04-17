@@ -54,20 +54,25 @@ export class HttpException extends Error {
 export enum ApiErrorCode {
 
   // User Related
-  USER_NOT_FOUND             = 101,
-  USER_ALREADY_EXISTS        = 102,
-  USER_DEACTIVATED           = 103,
-  INCORRECT_OTP              = 104,
+  USER_NOT_FOUND                 = 101,
+  USER_ALREADY_EXISTS            = 102,
+  USER_DEACTIVATED               = 103,
+  INCORRECT_OTP                  = 104,
 
 
   // Address
-  ADDRESS_NOT_FOUND          = 201,
+  ADDRESS_NOT_FOUND              = 201,
+
+  // Product
+  PRODUCT_CATEGORY_NOT_FOUND     = 301,
+  PRODUCT_SUB_CATEGORY_NOT_FOUND = 302,
+  PRODUCT_NOT_FOUND              = 303,
 
   // JWT
 
-  JWT_INVALID                = 9101,
-  JWT_INCORRECT_PAYLOAD_TYPE = 9102,
-  VALIDATION_ERROR           = 9998,
+  JWT_INVALID                    = 9101,
+  JWT_INCORRECT_PAYLOAD_TYPE     = 9102,
+  VALIDATION_ERROR               = 9998,
 
-  UNKNOWN                    = 9999 // Reserved...
+  UNKNOWN                        = 9999 // Reserved...
 }
