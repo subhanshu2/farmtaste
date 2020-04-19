@@ -9,6 +9,9 @@ import { City } from "../models/address/city.model";
 import { Area } from "../models/address/area.model";
 import { Address } from "../models/address/address.model";
 import { Employee } from "../models/employee.model";
+import { ProductCategory } from "../models/product-category.model";
+import { ProductSubCategory } from "../models/product-sub-category.model";
+import { Product } from "../models/product.model";
 
 class DBService {
   private _sequelize: Sequelize;
@@ -30,7 +33,10 @@ class DBService {
       City,
       Area,
       Address,
-      Employee
+      Employee,
+      ProductCategory,
+      ProductSubCategory,
+      Product
     ]);
   }
 

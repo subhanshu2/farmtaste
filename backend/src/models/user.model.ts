@@ -13,7 +13,7 @@ import { Area } from "./address/area.model";
 
 @Table({
   timestamps: true,
-  paranoid  : false,
+  paranoid  : true,
   tableName : "users"
 })
 export class User extends Model<User> {

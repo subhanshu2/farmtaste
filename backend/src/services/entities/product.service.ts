@@ -62,7 +62,7 @@ class ProductService {
   async addProduct(title: string, sub_category_id: number, image?: Express.Multer.File): Promise<Product> {
     return Product.create({
       title      : title,
-      category_id: sub_category_id,
+      sub_category_id: sub_category_id,
       image_url  : image ? ENV_BASE_URL + image.path.replace(/\\/g, "/") : ""
     });
   }

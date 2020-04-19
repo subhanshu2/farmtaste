@@ -13,7 +13,7 @@ import * as fs from "fs";
 
 @Table({
   timestamps: true,
-  paranoid  : false,
+  paranoid  : true,
   tableName : "addresses"
 })
 export class Address extends Model<Address> {

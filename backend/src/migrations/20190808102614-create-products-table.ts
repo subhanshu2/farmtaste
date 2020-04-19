@@ -2,7 +2,7 @@ import { QueryInterface, SequelizeStatic } from "sequelize";
 
 export = {
   up: (queryInterface: QueryInterface, Sequelize: SequelizeStatic) => {
-    return queryInterface.createTable("product", {
+    return queryInterface.createTable("products", {
       id             : {
         allowNull    : false,
         primaryKey   : true,
@@ -48,7 +48,7 @@ export = {
 
   down: (queryInterface: QueryInterface, Sequelize: SequelizeStatic) => {
     return Promise.all([
-      queryInterface.dropTable("product"),
+      queryInterface.dropTable("products"),
     ]);
   }
 };

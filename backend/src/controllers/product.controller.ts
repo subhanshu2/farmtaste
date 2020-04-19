@@ -19,7 +19,7 @@ export class ProductController {
   }
 
   static async listProductSubCategories(req: Request, res: Response) {
-    const categoryId    = +req.params.catgoryId;
+    const categoryId    = +req.params.categoryId;
     const subCategories = await productService.listSubCategories(categoryId);
     return res.json({
       data: await new ProductCategoryTransformer().transformList(subCategories)

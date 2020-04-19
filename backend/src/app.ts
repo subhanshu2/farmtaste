@@ -111,14 +111,14 @@ app.delete("/productCategory/:categoryId([0-9]+)", errorHandler(ProductControlle
 
 
 // SUB CATEGORY
-app.get("/productSubCategories", errorHandler(ProductController.listProductSubCategories));
+app.get("/productSubCategories/:categoryId([0-9]+)", errorHandler(ProductController.listProductSubCategories));
 app.post("/productSubCategories", upload.single("image"), errorHandler(ProductController.createProductSubCategory));
 app.put("/productSubCategory/:subCategoryId([0-9]+)", upload.single("image"), errorHandler(ProductController.updateProductSubCategory));
 app.delete("/productSubCategory/:subCategoryId([0-9]+)", errorHandler(ProductController.deleteProductSubCategory));
 
 
 // PRODUCT
-app.get("/products", errorHandler(ProductController.listProducts));
+app.get("/products/:subCategoryId([0-9]+)", errorHandler(ProductController.listProducts));
 app.post("/products", upload.single("image"), errorHandler(ProductController.createProduct));
 app.put("/product/:productId([0-9]+)", upload.single("image"), errorHandler(ProductController.updateProduct));
 app.delete("/product/:productId([0-9]+)", errorHandler(ProductController.deleteProduct));
