@@ -76,7 +76,7 @@ app.use(cors({
 app.options("*");
 
 // Static Public Content
-app.use("/public", express.static("public", { maxAge: 31557600000 }));
+app.use("/public", express.static("./public", { maxAge: 31557600000 }));
 
 // Global Middleware(s)
 

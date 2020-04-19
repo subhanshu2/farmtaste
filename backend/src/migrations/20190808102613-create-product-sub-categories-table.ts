@@ -27,15 +27,19 @@ export = {
         },
         onDelete  : "cascade"
       },
-      createdAt: {
+      image_url  : {
+        type     : Sequelize.STRING,
+        allowNull: true,
+      },
+      createdAt  : {
         allowNull: true,
         type     : Sequelize.DATE
       },
-      updatedAt: {
+      updatedAt  : {
         allowNull: true,
         type     : Sequelize.DATE
       },
-      deletedAt: {
+      deletedAt  : {
         allowNull: true,
         type     : Sequelize.DATE
       }

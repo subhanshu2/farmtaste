@@ -6,6 +6,8 @@ import { ProductTransformer } from "../transformers/product.transformer";
 import { ProductCategoryNotFoundException } from "../exceptions/product/product-category-not-found.exception";
 import { ProductSubCategoryNotFoundException } from "../exceptions/product/product-sub-category-not-found.exception";
 import { ProductNotFoundException } from "../exceptions/product/product-not-found.exception";
+import * as fs from "fs";
+import { ImageUploadType } from "../enums/image-upload-type.enum";
 
 export class ProductController {
 
@@ -41,16 +43,40 @@ export class ProductController {
   }
 
   static async createProductSubCategory(req: Request, res: Response) {
-    const inputData   = req.body as { title: string, category_id: number };
-    const subCategory = await productService.addSubCategory(inputData.title, inputData.category_id);
+    const inputData = req.body as { title: string, category_id: number, type?: ImageUploadType };
+    const image     = req.file;
+    let subCategory;
+    if (image) {
+      try {
+        subCategory = await productService.addSubCategory(inputData.title, inputData.category_id, image);
+      } catch (e) {
+        fs.unlinkSync(image.path.replace(/\\/g, "/"));
+        throw e;
+
+      }
+    } else {
+      subCategory = await productService.addSubCategory(inputData.title, inputData.category_id);
+    }
     return res.json({
       data: await new ProductSubCategoryTransformer().transform(subCategory)
     });
   }
 
   static async createProduct(req: Request, res: Response) {
-    const inputData = req.body as { title: string, sub_category_id: number };
-    const product   = await productService.addProduct(inputData.title, inputData.sub_category_id);
+    const inputData = req.body as { title: string, sub_category_id: number, type?: ImageUploadType };
+    const image     = req.file;
+    let product;
+    if (image) {
+      try {
+        product = await productService.addProduct(inputData.title, inputData.sub_category_id, image);
+      } catch (e) {
+        fs.unlinkSync(image.path.replace(/\\/g, "/"));
+        throw e;
+
+      }
+    } else {
+      product = await productService.addProduct(inputData.title, inputData.sub_category_id);
+    }
     return res.json({
       data: await new ProductTransformer().transform(product)
     });
@@ -71,12 +97,24 @@ export class ProductController {
 
   static async updateProductSubCategory(req: Request, res: Response) {
     const subCategoryId = +req.params.subCategoryId;
-    const inputData     = req.body as { title: string, categoryId: number };
+    const inputData     = req.body as { title: string, category_id: number, type?: ImageUploadType };
     const subCategory   = await productService.showSubCategory(subCategoryId);
     if (!subCategory) {
       throw new ProductSubCategoryNotFoundException();
     }
-    const updatedSubCategory = await productService.updateSubCategory(subCategory, inputData.title, inputData.categoryId);
+    const image = req.file;
+    let updatedSubCategory;
+    if (image) {
+      try {
+        updatedSubCategory = await productService.updateSubCategory(subCategory, inputData.title, inputData.category_id, image);
+      } catch (e) {
+        fs.unlinkSync(image.path.replace(/\\/g, "/"));
+        throw e;
+
+      }
+    } else {
+      updatedSubCategory = await productService.updateSubCategory(subCategory, inputData.title, inputData.category_id);
+    }
     return res.json({
       data: await new ProductCategoryTransformer().transform(updatedSubCategory)
     });
@@ -84,12 +122,25 @@ export class ProductController {
 
   static async updateProduct(req: Request, res: Response) {
     const productId = +req.params.productId;
-    const inputData = req.body as { title: string, sub_category_id: number };
+    const inputData = req.body as { title: string, sub_category_id: number, type?: ImageUploadType };
     const product   = await productService.showProduct(productId);
     if (!product) {
       throw new ProductNotFoundException();
     }
-    const updatedProduct = await productService.updateProduct(product, inputData.title, inputData.sub_category_id);
+    const image = req.file;
+    let updatedProduct;
+    if (image) {
+      try {
+        updatedProduct = await productService.updateProduct(product, inputData.title, inputData.sub_category_id, image);
+      } catch (e) {
+        fs.unlinkSync(image.path.replace(/\\/g, "/"));
+        throw e;
+
+      }
+    } else {
+      updatedProduct = await productService.updateProduct(product, inputData.title, inputData.sub_category_id);
+    }
+
     return res.json({
       data: await new ProductCategoryTransformer().transform(updatedProduct)
     });

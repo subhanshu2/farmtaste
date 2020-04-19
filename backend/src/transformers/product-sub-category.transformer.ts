@@ -11,6 +11,7 @@ export class ProductSubCategoryTransformer extends TransformerAbstract<ProductSu
       title      : subCategory.title,
       slug       : subCategory.slug,
       category_id: subCategory.category_id,
+      image_url  : subCategory.image_url,
       created_at : subCategory.createdAt,
       updated_at : subCategory.updatedAt,
       deleted_at : subCategory.deletedAt

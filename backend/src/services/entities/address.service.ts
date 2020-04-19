@@ -52,7 +52,7 @@ class AddressService {
   async addCity(data: AddressCreateDto, image?: Express.Multer.File, transaction?: Transaction): Promise<City> {
     return City.create({
       title    : data.title,
-      image_url: image ? image.path.replace(/\\/g, "/") : ""
+      image_url: image ? ENV_BASE_URL + image.path.replace(/\\/g, "/") : ""
     }, { transaction });
   }
 
@@ -60,7 +60,7 @@ class AddressService {
     return Location.create({
       title    : data.title,
       city_id  : data.city_id,
-      image_url: image ? image.path.replace(/\\/g, "/") : ""
+      image_url: image ? ENV_BASE_URL + image.path.replace(/\\/g, "/") : ""
     }, { transaction });
   }
 
@@ -69,7 +69,7 @@ class AddressService {
     return Area.create({
       title      : data.title,
       location_id: data.location_id,
-      image_url  : image ? image.path.replace(/\\/g, "/") : ""
+      image_url  : image ? ENV_BASE_URL + image.path.replace(/\\/g, "/") : ""
     }, { transaction });
   }
 
@@ -88,6 +88,7 @@ class AddressService {
     }
     return address;
   }
+
   async deleteAddress(address: City | Location | Area) {
     return address.destroy();
   }

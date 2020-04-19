@@ -51,10 +51,11 @@ class ProductService {
     });
   }
 
-  async addSubCategory(title: string, category_id: number): Promise<ProductSubCategory> {
+  async addSubCategory(title: string, category_id: number, image?: Express.Multer.File): Promise<ProductSubCategory> {
     return ProductSubCategory.create({
       title      : title,
-      category_id: category_id
+      category_id: category_id,
+      image_url  : image ? ENV_BASE_URL + image.path.replace(/\\/g, "/") : ""
     });
   }
 
@@ -72,10 +73,11 @@ class ProductService {
     });
   }
 
-  async updateSubCategory(subCategory: ProductSubCategory, title: string, category_id: number): Promise<ProductSubCategory> {
+  async updateSubCategory(subCategory: ProductSubCategory, title: string, category_id: number, image?: Express.Multer.File): Promise<ProductSubCategory> {
     return subCategory.update({
       title      : title,
-      category_id: category_id
+      category_id: category_id,
+      image_url  : image ? ENV_BASE_URL + image.path.replace(/\\/g, "/") : ""
     });
   }
 

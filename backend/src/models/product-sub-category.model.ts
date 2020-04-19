@@ -35,6 +35,10 @@ export class ProductSubCategory extends Model<ProductSubCategory> {
   @Column(DataType.BIGINT)
   category_id: number;
 
+  @Unique
+  @Column(DataType.STRING)
+  image_url: string;
+
   @BelongsTo(() => ProductCategory)
   category: ProductCategory;
 
