@@ -34,14 +34,14 @@
         "column": "id"
       }
     },
-    "area": {
+    "area_id": {
       "type": "number",
       "exists": {
         "table": "areas",
         "column": "id"
       }
     },
-    "location": {
+    "location_id": {
       "type": "number",
       "exists": {
         "table": "locations",
@@ -50,9 +50,6 @@
     },
     "pincode": {
       "type": "number"
-    },
-    "status": {
-      "type": "boolean"
     }
   }
 }
