@@ -30,7 +30,7 @@ export class ProductController {
     const categoryId    = +req.params.categoryId;
     const subCategories = await productService.listSubCategories(categoryId);
     return res.json({
-      data: await new ProductCategoryTransformer().transformList(subCategories)
+      data: await new ProductSubCategoryTransformer().transformList(subCategories)
     });
   }
 
@@ -38,7 +38,7 @@ export class ProductController {
     const subCategoryId = +req.params.subCategoryId;
     const products      = await productService.listProducts(subCategoryId);
     return res.json({
-      data: await new ProductCategoryTransformer().transformList(products)
+      data: await new ProductTransformer().transformList(products)
     });
   }
 

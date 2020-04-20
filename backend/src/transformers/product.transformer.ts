@@ -12,6 +12,7 @@ export class ProductTransformer extends TransformerAbstract<Product> {
       slug           : product.slug,
       sub_category_id: product.sub_category_id,
       image_url      : product.image_url,
+      is_under_gst   : product.is_under_gst,
       created_at     : product.createdAt,
       updated_at     : product.updatedAt,
       deleted_at     : product.deletedAt
