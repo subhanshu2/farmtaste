@@ -1,0 +1,27 @@
+{
+  "$async": true,
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "title",
+    "category_id"
+  ],
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "category_id": {
+      "type": "number",
+      "exists": {
+        "table": "product_categories",
+        "column": "id"
+      }
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "sub category"
+      ]
+    }
+  }
+}

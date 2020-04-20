@@ -1,0 +1,31 @@
+{
+  "$async": true,
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "title",
+    "sub_category_id",
+    "is_under_gst"
+  ],
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "sub_category_id": {
+      "type": "number",
+      "exists": {
+        "table": "product_sub_categories",
+        "column": "id"
+      }
+    },
+    "is_under_gst": {
+      "type": "boolean"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "product"
+      ]
+    }
+  }
+}

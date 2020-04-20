@@ -113,7 +113,12 @@ export class UserController {
   }
 
   static async updateMe(req: Request, res: Response) {
-    const user = req.user;
+    const user           = req.user;
+    req.body.city_id     = +req.body.city_id;
+    req.body.location_id = +req.body.location_id;
+    req.body.area_id     = +req.body.area_id;
+    req.body.pincode     = +req.body.pincode;
+
     const body = req.body as UserUpdateDto;
 
     try {

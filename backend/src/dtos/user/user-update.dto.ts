@@ -9,5 +9,4 @@ export interface UserUpdateDto {
   area_id?: number;
   location_id?: number;
   pincode?: number;
-  status?: boolean;
 }

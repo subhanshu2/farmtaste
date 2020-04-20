@@ -5,7 +5,7 @@ import { Location } from "./location.model";
 
 @Table({
   timestamps: true,
-  paranoid  : false,
+  paranoid  : true,
   tableName : "areas"
 })
 

@@ -1,0 +1,25 @@
+{
+  "$async": true,
+  "type": "object",
+  "additionalProperties": true,
+  "required": [],
+  "properties": {
+    "city_id": {
+      "type": "number",
+      "exists": {
+        "table": "cities",
+        "column": "id"
+      }
+    },
+    "product_id": {
+      "type": "number",
+      "exists": {
+        "table": "products",
+        "column": "id"
+      }
+    },
+    "rate": {
+      "type": "number"
+    }
+  }
+}

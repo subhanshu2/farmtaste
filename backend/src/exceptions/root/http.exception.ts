@@ -67,6 +67,7 @@ export enum ApiErrorCode {
   PRODUCT_CATEGORY_NOT_FOUND     = 301,
   PRODUCT_SUB_CATEGORY_NOT_FOUND = 302,
   PRODUCT_NOT_FOUND              = 303,
+  RATE_NOT_FOUND                 = 304,
 
   // JWT
 

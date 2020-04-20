@@ -3,6 +3,8 @@ import { ProductCategory } from "../../models/product-category.model";
 import { ProductSubCategory } from "../../models/product-sub-category.model";
 import { Product } from "../../models/product.model";
 import { ENV_BASE_URL } from "../../util/secrets.util";
+import { ProductCreateDto } from "../../dtos/product/product-create.dto";
+import { ProductUpdateDto } from "../../dtos/product/product-update.dto";
 
 class ProductService {
   constructor() {
@@ -59,11 +61,12 @@ class ProductService {
     });
   }
 
-  async addProduct(title: string, sub_category_id: number, image?: Express.Multer.File): Promise<Product> {
+  async addProduct(data: ProductCreateDto, image?: Express.Multer.File): Promise<Product> {
     return Product.create({
-      title      : title,
-      sub_category_id: sub_category_id,
-      image_url  : image ? ENV_BASE_URL + image.path.replace(/\\/g, "/") : ""
+      title          : data.title,
+      sub_category_id: data.sub_category_id,
+      image_url      : image ? ENV_BASE_URL + image.path.replace(/\\/g, "/") : "",
+      is_under_gst   : data.is_under_gst
     });
   }
 
@@ -81,11 +84,12 @@ class ProductService {
     });
   }
 
-  async updateProduct(product: Product, title: string, sub_category_id: number, image?: Express.Multer.File): Promise<Product> {
+  async updateProduct(product: Product, data: ProductUpdateDto, image?: Express.Multer.File): Promise<Product> {
     return product.update({
-      title      : title,
-      category_id: sub_category_id,
-      image_url  : image ? ENV_BASE_URL + image.path.replace(/\\/g, "/") : ""
+      title       : data.title,
+      category_id : data.sub_category_id,
+      image_url   : image ? ENV_BASE_URL + image.path.replace(/\\/g, "/") : "",
+      is_under_gst: data.is_under_gst
     });
   }
 

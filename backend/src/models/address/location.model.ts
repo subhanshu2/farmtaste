@@ -4,7 +4,7 @@ import { City } from "./city.model";
 
 @Table({
   timestamps: true,
-  paranoid  : false,
+  paranoid  : true,
   tableName : "locations"
 })
 

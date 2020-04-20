@@ -35,6 +35,9 @@ export class Product extends Model<Product> {
   @Column(DataType.STRING)
   image_url: string;
 
+  @Column(DataType.BOOLEAN)
+  is_under_gst: boolean;
+
   @ForeignKey(() => ProductSubCategory)
   @Column(DataType.BIGINT)
   sub_category_id: number;

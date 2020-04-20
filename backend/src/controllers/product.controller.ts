@@ -8,6 +8,14 @@ import { ProductSubCategoryNotFoundException } from "../exceptions/product/produ
 import { ProductNotFoundException } from "../exceptions/product/product-not-found.exception";
 import * as fs from "fs";
 import { ImageUploadType } from "../enums/image-upload-type.enum";
+import { ProductCreateDto } from "../dtos/product/product-create.dto";
+import { ProductUpdateDto } from "../dtos/product/product-update.dto";
+import { UserLoginValidator } from "../validator/user/user-login.validator";
+import { UnprocessableEntityException } from "../exceptions/root/unprocessable-entity.exception";
+import { ProductSubCategoriesCreateValidator } from "../validator/product/product-sub-categories-create.validator";
+import { ProductCreateValidator } from "../validator/product/product-create.validator";
+import { ProductSubCategoriesUpdateValidator } from "../validator/product/product-sub-categories-udpate.validator";
+import { ProductUpdateValidator } from "../validator/product/product-update.validator";
 
 export class ProductController {
 
@@ -45,6 +53,12 @@ export class ProductController {
   static async createProductSubCategory(req: Request, res: Response) {
     const inputData = req.body as { title: string, category_id: number, type?: ImageUploadType };
     const image     = req.file;
+    try {
+      await (new ProductSubCategoriesCreateValidator().validate(inputData));
+    } catch (e) {
+      fs.unlinkSync(image.path.replace(/\\/g, "/"));
+      throw new UnprocessableEntityException(e);
+    }
     let subCategory;
     if (image) {
       try {
@@ -63,19 +77,25 @@ export class ProductController {
   }
 
   static async createProduct(req: Request, res: Response) {
-    const inputData = req.body as { title: string, sub_category_id: number, type?: ImageUploadType };
+    const inputData = req.body as ProductCreateDto;
     const image     = req.file;
+    try {
+      await (new ProductCreateValidator().validate(inputData));
+    } catch (e) {
+      fs.unlinkSync(image.path.replace(/\\/g, "/"));
+      throw new UnprocessableEntityException(e);
+    }
     let product;
     if (image) {
       try {
-        product = await productService.addProduct(inputData.title, inputData.sub_category_id, image);
+        product = await productService.addProduct(inputData, image);
       } catch (e) {
         fs.unlinkSync(image.path.replace(/\\/g, "/"));
         throw e;
 
       }
     } else {
-      product = await productService.addProduct(inputData.title, inputData.sub_category_id);
+      product = await productService.addProduct(inputData);
     }
     return res.json({
       data: await new ProductTransformer().transform(product)
@@ -103,6 +123,12 @@ export class ProductController {
       throw new ProductSubCategoryNotFoundException();
     }
     const image = req.file;
+    try {
+      await (new ProductSubCategoriesUpdateValidator().validate(inputData));
+    } catch (e) {
+      fs.unlinkSync(image.path.replace(/\\/g, "/"));
+      throw new UnprocessableEntityException(e);
+    }
     let updatedSubCategory;
     if (image) {
       try {
@@ -122,23 +148,28 @@ export class ProductController {
 
   static async updateProduct(req: Request, res: Response) {
     const productId = +req.params.productId;
-    const inputData = req.body as { title: string, sub_category_id: number, type?: ImageUploadType };
+    const inputData = req.body as ProductUpdateDto;
     const product   = await productService.showProduct(productId);
     if (!product) {
       throw new ProductNotFoundException();
     }
     const image = req.file;
+    try {
+      await (new ProductUpdateValidator().validate(inputData));
+    } catch (e) {
+      fs.unlinkSync(image.path.replace(/\\/g, "/"));
+      throw new UnprocessableEntityException(e);
+    }
     let updatedProduct;
     if (image) {
       try {
-        updatedProduct = await productService.updateProduct(product, inputData.title, inputData.sub_category_id, image);
+        updatedProduct = await productService.updateProduct(product, inputData, image);
       } catch (e) {
         fs.unlinkSync(image.path.replace(/\\/g, "/"));
         throw e;
-
       }
     } else {
-      updatedProduct = await productService.updateProduct(product, inputData.title, inputData.sub_category_id);
+      updatedProduct = await productService.updateProduct(product, inputData);
     }
 
     return res.json({
