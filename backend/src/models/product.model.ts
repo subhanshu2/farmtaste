@@ -47,7 +47,7 @@ export class Product extends Model<Product> {
   sub_category: ProductSubCategory;
 
   @HasMany(() => Rate)
-  rates: Rate;
+  rate: Rate;
 
   @BeforeCreate
   static addSlug(instance: Product) {

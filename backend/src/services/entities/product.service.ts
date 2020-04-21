@@ -5,6 +5,7 @@ import { Product } from "../../models/product.model";
 import { ENV_BASE_URL } from "../../util/secrets.util";
 import { ProductCreateDto } from "../../dtos/product/product-create.dto";
 import { ProductUpdateDto } from "../../dtos/product/product-update.dto";
+import { Rate } from "../../models/rate.model";
 
 class ProductService {
   constructor() {
@@ -39,11 +40,19 @@ class ProductService {
     });
   }
 
-  async listProducts(sub_category_id: number): Promise<Product[]> {
+  async listProducts(sub_category_id: number, location_id?: number, withIncludes?: boolean): Promise<Product[]> {
     return Product.findAll({
-      where: {
+      where  : {
         sub_category_id: sub_category_id
-      }
+      },
+      include: withIncludes ? [
+        {
+          model: Rate,
+          where: {
+            location_id: location_id
+          }
+        }
+      ] : []
     });
   }
 
