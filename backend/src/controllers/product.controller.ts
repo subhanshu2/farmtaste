@@ -35,9 +35,9 @@ export class ProductController {
   }
 
   static async listProducts(req: Request, res: Response) {
-    const location_id = +req.user.location_id;
+    const city_id       = +req.user.city_id;
     const subCategoryId = +req.params.subCategoryId;
-    const products      = await productService.listProducts(subCategoryId, location_id, true);
+    const products      = await productService.listProducts(subCategoryId, city_id, true);
     return res.json({
       data: await new ProductTransformer().transformList(products)
     });

@@ -7,6 +7,22 @@ import { RateTransformer } from "./rate.transformer";
 
 export class ProductTransformer extends TransformerAbstract<Product> {
 
+  defaultIncludes = ["rate"];
+
+  async includeRate(product: Product): Promise<Dictionary<any>> {
+    let rate = product.rate;
+    if (!rate) {
+      return null;
+    }
+
+    if (isUndefined(rate)) {
+      rate = await product.$get("rate") as Rate[];
+    }
+
+    return new RateTransformer().transformList(rate);
+
+  }
+
   protected _map(product: Product): Dictionary<any> {
 
     return {

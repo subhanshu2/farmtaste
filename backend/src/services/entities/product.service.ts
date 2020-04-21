@@ -40,19 +40,20 @@ class ProductService {
     });
   }
 
-  async listProducts(sub_category_id: number, location_id?: number, withIncludes?: boolean): Promise<Product[]> {
+  async listProducts(sub_category_id: number, city_id?: number, withIncludes?: boolean): Promise<Product[]> {
     return Product.findAll({
       where  : {
         sub_category_id: sub_category_id
       },
       include: withIncludes ? [
-        {
-          model: Rate,
-          where: {
-            location_id: location_id
+          {
+            model: Rate,
+            where: {
+              city_id: city_id
+            }
           }
-        }
-      ] : []
+        ]
+        : []
     });
   }
 

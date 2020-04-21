@@ -20,6 +20,7 @@ import { errorHandler } from "./handlers/error-handler";
 import { upload } from "./services/factories/multer.service";
 import { AddressController } from "./controllers/address.controller";
 import { ProductController } from "./controllers/product.controller";
+import { RateController } from "./controllers/rate.controller";
 // import { userMiddleware } from "./middlewares/user.middleware";
 
 
@@ -118,11 +119,13 @@ app.delete("/productSubCategory/:subCategoryId([0-9]+)", errorHandler(ProductCon
 
 
 // PRODUCT
-app.get("/products/:subCategoryId([0-9]+)", errorHandler(ProductController.listProducts));
+app.get("/products/:subCategoryId([0-9]+)", [userMiddleware], errorHandler(ProductController.listProducts));
 app.post("/products", upload.single("image"), errorHandler(ProductController.createProduct));
 app.put("/product/:productId([0-9]+)", upload.single("image"), errorHandler(ProductController.updateProduct));
 app.delete("/product/:productId([0-9]+)", errorHandler(ProductController.deleteProduct));
 
+// RATE
+app.post("/rates", errorHandler(RateController.addRate));
 
 app.get("*", (req, res) => {
   res.send({ data: "Works" });
