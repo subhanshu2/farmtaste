@@ -9,7 +9,7 @@ export class ProductTransformer extends TransformerAbstract<Product> {
 
 
   async includeRates(product: Product, location_id: number): Promise<Dictionary<any>> {
-    let rate = product.rate;
+    let rate = product.rates;
     if (isUndefined(rate)) {
       rate = await product.$get("rates", {
         where: {
