@@ -1,8 +1,24 @@
 import { TransformerAbstract } from "./transformer.abstract";
 import { Dictionary } from "async";
 import { Product } from "../models/product.model";
+import { isUndefined } from "util";
+import { Rate } from "../models/rate.model";
+import { RateTransformer } from "./rate.transformer";
 
 export class ProductTransformer extends TransformerAbstract<Product> {
+
+
+  async includeRates(product: Product, location_id: number): Promise<Dictionary<any>> {
+    let rate = product.rate;
+    if (isUndefined(rate)) {
+      rate = await product.$get("rates", {
+        where: {
+          location_id: location_id
+        }
+      }) as Rate;
+    }
+    return await new RateTransformer().transform(rate);
+  }
 
   protected _map(product: Product): Dictionary<any> {
 

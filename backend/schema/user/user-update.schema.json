@@ -28,21 +28,30 @@
       "type": "string"
     },
     "city_id": {
-      "type": "number",
+      "type": [
+        "number",
+        "null"
+      ],
       "exists": {
         "table": "cities",
         "column": "id"
       }
     },
     "area_id": {
-      "type": "number",
+      "type": [
+        "number",
+        "null"
+      ],
       "exists": {
         "table": "areas",
         "column": "id"
       }
     },
     "location_id": {
-      "type": "number",
+      "type": [
+        "number",
+        "null"
+      ],
       "exists": {
         "table": "locations",
         "column": "id"

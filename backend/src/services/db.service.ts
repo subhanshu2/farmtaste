@@ -12,6 +12,7 @@ import { Employee } from "../models/employee.model";
 import { ProductCategory } from "../models/product-category.model";
 import { ProductSubCategory } from "../models/product-sub-category.model";
 import { Product } from "../models/product.model";
+import { Rate } from "../models/rate.model";
 
 class DBService {
   private _sequelize: Sequelize;
@@ -36,7 +37,8 @@ class DBService {
       Employee,
       ProductCategory,
       ProductSubCategory,
-      Product
+      Product,
+      Rate
     ]);
   }
 

@@ -11,6 +11,7 @@ import {
 import { Helpers } from "../util/helpers.util";
 import { ProductCategory } from "./product-category.model";
 import { ProductSubCategory } from "./product-sub-category.model";
+import { Rate } from "./rate.model";
 
 @Table({
   timestamps: true,
@@ -44,6 +45,9 @@ export class Product extends Model<Product> {
 
   @BelongsTo(() => ProductSubCategory)
   sub_category: ProductSubCategory;
+
+  @HasMany(() => Rate)
+  rates: Rate;
 
   @BeforeCreate
   static addSlug(instance: Product) {

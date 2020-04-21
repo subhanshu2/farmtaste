@@ -113,8 +113,8 @@ export class UserController {
   }
 
   static async updateMe(req: Request, res: Response) {
-    const user       = req.user;
-    const body       = req.body as UserUpdateDto;
+    const user = req.user;
+    const body = req.body as UserUpdateDto;
     // body.city_id     = +req.body.city_id;
     // body.location_id = +req.body.location_id;
     // body.area_id     = +req.body.area_id;
@@ -130,7 +130,8 @@ export class UserController {
     const updatedUser = await userService.update(user, body);
 
     return res.json({
-      user: await (new UserTransformer()).transform(updatedUser)
+      token: jwt.sign({ user }, "secret"),
+      user : await (new UserTransformer()).transform(updatedUser)
     });
   }
 
