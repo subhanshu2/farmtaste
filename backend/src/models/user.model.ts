@@ -59,8 +59,8 @@ export class User extends Model<User> {
   @Column(DataType.BIGINT)
   area_id?: number;
 
-  @Column(DataType.INTEGER)
-  pincode?: number;
+  @Column(DataType.STRING)
+  pincode?: string;
 
   @Default(true)
   @Column(DataType.BOOLEAN)

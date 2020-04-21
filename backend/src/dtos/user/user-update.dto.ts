@@ -8,5 +8,5 @@ export interface UserUpdateDto {
   city_id?: number;
   area_id?: number;
   location_id?: number;
-  pincode?: number;
+  pincode?: string;
 }

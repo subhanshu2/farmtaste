@@ -69,7 +69,7 @@ export = {
       },
       pincode     : {
         allowNull: true,
-        type     : Sequelize.INTEGER
+        type     : Sequelize.STRING
       },
       is_active   : {
         allowNull: false,
