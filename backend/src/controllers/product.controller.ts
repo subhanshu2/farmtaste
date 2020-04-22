@@ -57,7 +57,9 @@ export class ProductController {
     try {
       await (new ProductSubCategoriesCreateValidator().validate(inputData));
     } catch (e) {
-      fs.unlinkSync(image.path.replace(/\\/g, "/"));
+      if (image) {
+        fs.unlinkSync(image.path.replace(/\\/g, "/"));
+      }
       throw new UnprocessableEntityException(e);
     }
     let subCategory;
@@ -83,7 +85,9 @@ export class ProductController {
     try {
       await (new ProductCreateValidator().validate(inputData));
     } catch (e) {
-      fs.unlinkSync(image.path.replace(/\\/g, "/"));
+      if (image) {
+        fs.unlinkSync(image.path.replace(/\\/g, "/"));
+      }
       throw new UnprocessableEntityException(e);
     }
     let product;
@@ -96,6 +100,7 @@ export class ProductController {
 
       }
     } else {
+      console.log("skdgfdlkgjdfd");
       product = await productService.addProduct(inputData);
     }
     return res.json({

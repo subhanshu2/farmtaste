@@ -17,6 +17,12 @@
     "is_under_gst": {
       "type": "boolean"
     },
+    "gst_rate": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
     "type": {
       "type": "string",
       "enum": [

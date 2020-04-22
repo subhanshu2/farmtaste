@@ -21,6 +21,7 @@ import { upload } from "./services/factories/multer.service";
 import { AddressController } from "./controllers/address.controller";
 import { ProductController } from "./controllers/product.controller";
 import { RateController } from "./controllers/rate.controller";
+import { CartController } from "./controllers/cart.controller";
 // import { userMiddleware } from "./middlewares/user.middleware";
 
 
@@ -126,6 +127,13 @@ app.delete("/product/:productId([0-9]+)", errorHandler(ProductController.deleteP
 
 // RATE
 app.post("/rates", errorHandler(RateController.addRate));
+
+// CART
+app.get("/my-cart", [userMiddleware], errorHandler(CartController.listCart));
+app.post("/add-to-cart", [userMiddleware], errorHandler(CartController.addToCart));
+app.put("/cart-item/:cartId([0-9]+)", [userMiddleware], errorHandler(CartController.updateCart));
+app.delete("/cart-item/:cartId([0-9]+)", [userMiddleware], errorHandler(CartController.deleteCartItem));
+app.delete("/empty-cart", [userMiddleware], errorHandler(CartController.emptyCart));
 
 app.get("*", (req, res) => {
   res.send({ data: "Works" });

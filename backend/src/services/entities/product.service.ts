@@ -28,6 +28,20 @@ class ProductService {
     return Product.findById(categoryId);
   }
 
+  async showProductById(product_id: number, city_id: number, withIncludes?: boolean): Promise<Product> {
+    return Product.findById(product_id, {
+      include: withIncludes ? [
+          {
+            model: Rate,
+            where: {
+              city_id: city_id
+            }
+          }
+        ]
+        : []
+    });
+  }
+
   async listCategories(): Promise<ProductCategory[]> {
     return ProductCategory.findAll();
   }
@@ -76,7 +90,8 @@ class ProductService {
       title          : data.title,
       sub_category_id: data.sub_category_id,
       image_url      : image ? ENV_BASE_URL + image.path.replace(/\\/g, "/") : "",
-      is_under_gst   : data.is_under_gst
+      is_under_gst   : data.is_under_gst,
+      gst_rate       : data.gst_rate
     });
   }
 

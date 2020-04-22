@@ -2,52 +2,48 @@ import { QueryInterface, SequelizeStatic } from "sequelize";
 
 export = {
   up: (queryInterface: QueryInterface, Sequelize: SequelizeStatic) => {
-    return queryInterface.createTable("products", {
-      id             : {
+    return queryInterface.createTable("carts", {
+      id         : {
         allowNull    : false,
         primaryKey   : true,
         autoIncrement: true,
         type         : Sequelize.BIGINT
       },
-      title          : {
-        type     : Sequelize.STRING,
-        unique   : true,
-        allowNull: false
-      },
-      slug           : {
-        type     : Sequelize.STRING,
-        allowNull: false,
-      },
-      sub_category_id: {
+      user_id    : {
         type      : Sequelize.BIGINT,
         allowNull : false,
         references: {
-          model: "product_sub_categories",
+          model: "users",
           key  : "id"
         },
         onDelete  : "cascade"
       },
-      image_url      : {
-        type     : Sequelize.STRING,
-        allowNull: true
+      product_id : {
+        type      : Sequelize.BIGINT,
+        allowNull : false,
+        references: {
+          model: "products",
+          key  : "id"
+        },
+        onDelete  : "cascade"
       },
-      is_under_gst   : {
-        type     : Sequelize.BOOLEAN,
+      no_of_units: {
+        type     : Sequelize.INTEGER,
+        allowNull: false,
+      },
+      rate       : {
+        type     : Sequelize.FLOAT,
         allowNull: false
       },
-      gst_rate       : {
-        type     : Sequelize.FLOAT,
-        allowNull: true
-      },
-      createdAt      : {
+      createdAt  : {
         allowNull: true,
         type     : Sequelize.DATE
       },
-      updatedAt      : {
+      updatedAt  : {
         allowNull: true,
         type     : Sequelize.DATE
       },
-      deletedAt      : {
+      deletedAt  : {
         allowNull: true,
         type     : Sequelize.DATE
       }
@@ -56,7 +52,7 @@ export = {
 
   down: (queryInterface: QueryInterface, Sequelize: SequelizeStatic) => {
     return Promise.all([
-      queryInterface.dropTable("products"),
+      queryInterface.dropTable("carts"),
     ]);
   }
 };

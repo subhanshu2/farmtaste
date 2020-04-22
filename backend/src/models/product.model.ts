@@ -39,6 +39,9 @@ export class Product extends Model<Product> {
   @Column(DataType.BOOLEAN)
   is_under_gst: boolean;
 
+  @Column(DataType.FLOAT)
+  gst_rate?: number;
+
   @ForeignKey(() => ProductSubCategory)
   @Column(DataType.BIGINT)
   sub_category_id: number;
